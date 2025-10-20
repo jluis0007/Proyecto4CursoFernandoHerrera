@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState } from "react";
+import { useState } from "react";
 
 import { Plus, Trash2, Check } from "lucide-react";
 
@@ -6,41 +6,54 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { taskReducer, getTaskInitialState } from "./tasksReducer";
+
+interface Todo {
+  id: number;
+  text: string;
+  completed: boolean;
+}
 
 export const TasksApp = () => {
   const [inputValue, setInputValue] = useState("");
-  //const [todos, setTodos] = useState<Todo[]>([]);
-  const [state, dispatch] = useReducer(taskReducer, getTaskInitialState());
-
-  useEffect(() => {
-    //console.log(state);
-    localStorage.setItem("task-state", JSON.stringify(state)); // no se puede hacer un .to String por que haria un object object y no se puede regresar despues asu estado original 138 min 7:00
-  }, [state]);
-
+  const [todos, setTodos] = useState<Todo[]>([]);
+  //const [state, dispatch] = useReducer(taskReducer, getTaskInitialState());
   const addTodo = () => {
     if (inputValue.length === 0) return;
-    dispatch({ type: "ADD_TODO", payload: inputValue });
-    setInputValue("");
+    //dispatch({ type: "ADD_TODO", payload: inputValue });
+    // ! todos.push(newTodo); NO HACER ESTO PORQUE REACT NO SABRÁ QUE SE MODIFICO ESE OBJETO O ESTADO SE TIENE QUE HACER MEDIANTE EL DISPATCH
+    //setTodos([...todos, newTodo]); // setTodos( (prev) => [..prev, newTodo]); USE STATE
+
+    setInputValue(""); //USESTATE
   };
 
-  const toggleTodo = (id: number) =>
-    dispatch({ type: "TOGGLE_TODO", payload: id });
+  const toggleTodo = (id: number) => {
+    const updatedTodos = todos.map((todo) => {
+      if (todo.id === id) {
+        return { ...todo, completed: !todo.completed };
+      }
+      return todo;
+    });
+    setTodos(updatedTodos);
+    //console.log('Cambiar de true a false', id);
+  };
 
-  const deleteTodo = (id: number) =>
-    dispatch({ type: "DELETE_TODO", payload: id });
+  const deleteTodo = (id: number) => {
+    const updatedTodos = todos.filter((todo) => todo.id !== id);
+    setTodos(updatedTodos);
+    //console.log('Eliminar tarea', id);
+  };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    //console.log({ key: e.key });
+    console.log({ key: e.key });
     if (e.key === "Enter") {
       addTodo();
     }
   };
 
-  const { todos, completed: completedCount, length: totalCount } = state;
+  //const { todos, completed: completedCount, length: totalCount } = state;
 
-  /* const completedCount = todos.filter((todo) => todo.completed).length;
-  const totalCount = todos.length; */
+  const completedCount = todos.filter((todo) => todo.completed).length;
+  const totalCount = todos.length;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-4">
