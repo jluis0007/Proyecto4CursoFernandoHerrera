@@ -31,7 +31,7 @@ export const ScrambleWords = () => {
     maxAllowErrors,
     maxSkips,
     points,
-    scrambledWord,
+    scrambleWord,
     skipCounter,
     totalWords,
   } = state;
@@ -51,6 +51,11 @@ export const ScrambleWords = () => {
   const [isGameOver, setIsGameOver] = useState(false); */
 
   const handleGuessSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    dispatch({
+      type: "CHECK_ANSWER",
+    });
     /* if (guess === currentWord) {
       const newWords = words.slice(1);
 
@@ -146,7 +151,7 @@ export const ScrambleWords = () => {
               </h2>
 
               <div className="flex justify-center gap-2 mb-6">
-                {scrambledWord.split("").map((letter, index) => (
+                {scrambleWord.split("").map((letter, index) => (
                   <div
                     key={index}
                     className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold text-xl shadow-lg transform hover:scale-105 transition-transform duration-200"
@@ -176,12 +181,11 @@ export const ScrambleWords = () => {
                     type="text"
                     value={guess}
                     onChange={(e) => {
-                      // setGuess(e.target.value.toUpperCase().trim())
-                      console.log(e.target.value);
+                      dispatch({ type: "SET_GUESS", payload: e.target.value });
                     }}
                     placeholder="Ingresa tu palabra..."
                     className="text-center text-lg font-semibold h-12 border-2 border-indigo-200 focus:border-indigo-500 transition-colors"
-                    maxLength={scrambledWord.length}
+                    maxLength={scrambleWord.length}
                     disabled={isGameOver}
                   />
                 </div>
