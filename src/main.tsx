@@ -8,7 +8,8 @@ import { TrafficLightWithEffect } from "./02-useEffect/TrafficLightWithEffect"; 
 /* import { PokemonPage } from "./02-useEffect/03-examples/PokemonPage"; */
 /* import { FocusScreen } from "./04-useRef/FocusScreen"; */
 /* import { TasksApp } from "./05-useReducer/TaskApp"; */
-import { ScrambleWords } from "./05-useReducer/ScrambleWords";
+/* import { ScrambleWords } from "./05-useReducer/ScrambleWords"; */
+import { MemoHook } from "./06-memos/MemoHook";
 
 import "./index.css";
 
@@ -20,6 +21,7 @@ createRoot(document.getElementById("root")!).render(
     {/* <PokemonPage /> */}
     {/* <FocusScreen/> */}
     {/* <TasksApp/> */}
-    <ScrambleWords />
+    {/* <ScrambleWords /> */}
+    <MemoHook />
   </StrictMode>
 );
