@@ -14,6 +14,7 @@ interface UserContextProps {
   //state
   authStatus: AuthStatus;
   user: User | null;
+  isAuthenticated: boolean;
 
   //Methods
   login: (userID: number) => boolean;
@@ -61,6 +62,7 @@ export const UserContextProvideer /* : FC<PropsWithChildren> */ = ({
     <UserContext
       value={{
         authStatus: authStatus,
+        isAuthenticated: authStatus === 'authenticated',
         user: user,
         login: handlelogin,
         logout: handleLogout,
